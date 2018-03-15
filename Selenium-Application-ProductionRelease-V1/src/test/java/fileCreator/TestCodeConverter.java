@@ -72,6 +72,12 @@ public class TestCodeConverter
 			return "Test The Impersonate Functionality Of The User (Impersonate/Revert)";
 		if(testCode == tc.testSortColumnFunctionality)
 			return "Test The Sort Functionality Of The Table";
+		if(testCode == tc.testNavigateToDriveGuardQa)
+			return "Navigate To DriveGuard QA";
+		if(testCode == tc.testGenericLogin)
+			return "Check To See Whether Login Was Successful";
+		if(testCode == tc.findNavigationBar)
+			return "Attempt To Find Navigation Bar For Logged In User";
 		return "Invalid test, please check codebase, code given: "+testCode;
 	}
 	
@@ -127,6 +133,12 @@ public class TestCodeConverter
 				error = "The String Value Returned After Sort Was The Same Before The Sort Took Place. Check Table To See There Are Enough Entries For Test";
 			else if(errorCode == tc.incorrectSortingResultLowerAboveHigh)
 				error = "The Sort Produced An Incorrect Result. The Top Search Was Below The Previous Entry Alphabetically";
+			else if(errorCode == tc.incorrectPageReached)
+				error = "The Incorrect Page Was Reached, Check Whether A Log In Attept Was Performed Above";
+			else if(errorCode == tc.couldntTypeValueInElement)
+				error = "Error Typing Value Into The Element, Either The Element Does Not Exist, Or There Is No Value To Type. Check Test";
+			else if(errorCode == tc.pageTimeoutOnElementClick)
+				error = "Once The Element Was Clicked, There Was No Response Within 10 Seconds From The Page. The Server Appears To Be Responding Slowly";
 			else
 				error = "Unknown Error Code. Code Used: "+errorCode;
 			

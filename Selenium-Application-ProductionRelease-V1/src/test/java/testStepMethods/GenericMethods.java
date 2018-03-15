@@ -3,6 +3,7 @@ package testStepMethods;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchWindowException;
@@ -239,20 +240,68 @@ public class GenericMethods
 		}
 	}
 	
+	public int createIframeDriver(String frameId, String tag ,WebDriver webDriver)
+	{
+		int testCode = 0;
+		try
+		{
+			if(tag.equals("id"))
+			{
+				WebElement iFrame = webDriver.findElement(By.id(frameId));
+				WebDriver driver2 = webDriver.switchTo().frame(iFrame);
+				driver2.manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS);
+				return testCode;
+			}
+			if(tag.equals("name"))
+			{
+				WebElement iFrame = webDriver.findElement(By.name(frameId));
+				WebDriver driver2 = webDriver.switchTo().frame(iFrame);
+				driver2.manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS);
+				return testCode;
+			}
+			if(tag.equals("class"))
+			{
+				WebElement iFrame = webDriver.findElement(By.className(frameId));
+				WebDriver driver2 = webDriver.switchTo().frame(iFrame);
+				driver2.manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS);
+				return testCode;
+			}
+			if(tag.equals("css"))
+			{
+				WebElement iFrame = webDriver.findElement(By.cssSelector(frameId));
+				WebDriver driver2 = webDriver.switchTo().frame(iFrame);
+				driver2.manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS);
+				return testCode;
+			}
+			else
+			{
+				return tc.incorrectTagGivenInTest;
+			}
+		}
+		catch(Exception e)
+		{
+			return 1000;
+		}
+	}
+	
 	
 	public int clickElement(WebElement element, WebDriver webDriver)
 	{
 		int testCode = 0;
 		try
 		{
+			webDriver.switchTo().defaultContent();
 			JavascriptExecutor executor = (JavascriptExecutor) webDriver;
-			webDriver.manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS);
+			webDriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 			new Actions(webDriver).moveToElement(element).perform();
 			executor.executeScript("arguments[0].click();", element);
 		}
 		catch(Exception e)
 		{
-			testCode = tc.elementCouldntBeClicked;
+			if(e instanceof org.openqa.selenium.TimeoutException)
+				testCode = tc.pageTimeoutOnElementClick;
+			else	
+				testCode = tc.elementCouldntBeClicked;
 		}
 
 		return testCode;
@@ -296,10 +345,7 @@ public class GenericMethods
 	{
 		int testCode = 0;
 		List<WebElement> tempInputList = new ArrayList<WebElement>();
-		
 		WebElement tableToTest = null;
-		
-		
 		
 		if(tag.equals("id"))
 		{

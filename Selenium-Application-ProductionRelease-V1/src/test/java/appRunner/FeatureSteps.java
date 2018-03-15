@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import static org.junit.Assert.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -191,7 +192,7 @@ public class FeatureSteps
 			runningLogger.writeToLog(loggerValues.navigateToDriveguard+loggerValues.production);
 			runnerCode = stepMethods.checkCorrectPageReached("https://qa.cmsdriveguard.co.uk/Account/Login", driver, false);
 			runningLogger.writeToLog(loggerValues.driveguardNavigated);
-			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webAddressError, testCodes.testNavigateToDriveGuardProd));
+			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webAddressError, testCodes.testNavigateToDriveGuardQa));
 			assertionTest(codesForTest, "");
 			codesForTest.clear();
 		}
@@ -294,6 +295,49 @@ public class FeatureSteps
 		}
 	}
 	
+	@Then("^check the element within iFrame \"([^\"]*)\" \"([^\"]*)\"$")
+	public void checkSelectedElementWithinIframe(String elementToCheckId, String iFrameElementId)
+	{
+		runnerCode = stepMethods.clickElementWithinIframe(elementToCheckId, iFrameElementId, "id", "id", driver);
+		codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webElementError, testCodes.testCheckElementWithinIframe));
+		assertionTest(codesForTest, elementToCheckId);
+		codesForTest.clear();
+	}
+	
+	@Then("^click the element within iFrame \"([^\"]*)\" \"([^\"]*)\"$")
+	public void clickSelectedElementWithinIframe(String elementToClickId, String iFrameElementId)
+	{
+		runnerCode = stepMethods.clickElementWithinIframe(elementToClickId, iFrameElementId, "id", "id", driver);
+		codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webElementError, testCodes.testClickOnElementWithinIframe));
+		assertionTest(codesForTest, elementToClickId);
+		codesForTest.clear();
+	}
+	
+	@Then("^click the element within iFrame \"([^\"]*)\" \"([^\"]*) \"([^\"]*)\" \"([^\"]*)\"$")
+	public void clickSelectedElementWithinIframe(String elementToClickId, String iFrameElementId, String elementToClickTag, String iframeToClickTag)
+	{
+		runnerCode = stepMethods.clickElementWithinIframe(elementToClickId, iFrameElementId, elementToClickTag, iframeToClickTag, driver);
+		codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webElementError, testCodes.testClickOnElementWithinIframe));
+		assertionTest(codesForTest, elementToClickId);
+		codesForTest.clear();
+	}
+	
+	@Then("^check login attempt was successful \"([^\"]*)\"$")
+	public void checkLoginWasSuccessful(String expectedPage)
+	{
+		try
+		{
+			runnerCode = stepMethods.assertCorrectPageHasLoadedForLogin(expectedPage, driver);
+			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webAddressError, testCodes.testGenericLogin));
+			assertionTest(codesForTest, "");
+			codesForTest.clear();
+		}
+		catch(Exception e)
+		{
+			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
+		}
+	}
+	
 	@Then("^click the element \"([^\"]*)\" \"([^\"]*)\"$")
 	public void clickSelectedElement(String webElement, String tagType)
 	{
@@ -332,7 +376,7 @@ public class FeatureSteps
 	}
 	
 	@Then("^check for table input \"([^\"]*)\"$")
-	public void checkInputSanity(String tableId)
+	public void checkForTableInput(String tableId)
 	{
 		try
 		{
@@ -366,7 +410,7 @@ public class FeatureSteps
 	}
 	
 	@Then("^check for table input \"([^\"]*)\" \"([^\"]*)\"$")
-	public void checkInputSanity(String container, String tag)
+	public void checkForTableInput(String container, String tag)
 	{
 		try
 		{
@@ -534,6 +578,7 @@ public class FeatureSteps
 	{
 		try
 		{
+			boolean elementFound = false;
 			runningLogger.writeToLog(loggerValues.checkNavigationWorking);
 			boolean skipPopup = true;
 			List<String> hrefList = new ArrayList<String>();
@@ -543,6 +588,7 @@ public class FeatureSteps
 			try
 			{
 				WebElement menuDiv = driver.findElement(By.id(menuId));
+				elementFound = true;
 				List<WebElement> navigationOptions = menuDiv.findElements(By.tagName("a"));
 				
 				for(WebElement o : navigationOptions)
@@ -585,10 +631,22 @@ public class FeatureSteps
 			}
 			catch(Exception e)
 			{
-				runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
-				codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webAddressError, testCodes.testNavigateToPage));
-				assertionTest(codesForTest, menuId);
-				codesForTest.clear();
+				if(elementFound == false)
+				{
+					runnerCode = testCodes.elementNotFound;
+					runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
+					codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webElementError, testCodes.findNavigationBar));
+					assertionTest(codesForTest, menuId);
+					codesForTest.clear();
+				}
+				else
+				{
+					runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
+					codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webAddressError, testCodes.testNavigateToPage));
+					assertionTest(codesForTest, menuId);
+					codesForTest.clear();
+				}
+
 			}
 		}
 		catch(Exception e)
@@ -984,8 +1042,8 @@ public class FeatureSteps
 		{
 			runningLogger.writeToLog(loggerValues.loginAsCmsAdmin+loggerValues.qa);
 			List<String> pageInfo = new ArrayList<String>();
-			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
-					"", "LoginButton", "https://qa.cmsdriveguard.co.uk/CMSFleetManager.aspx"));
+			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "test.cms07@collisionmanagementsystems.co.uk",
+					"QApassword1!", "LoginButton", "https://qa.cmsdriveguard.co.uk/CMSFleetManager.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webPageFunctionalityError, testCodes.testLoginAsCMSAdminQa));
 			assertionTest(codesForTest, "");
@@ -1005,8 +1063,8 @@ public class FeatureSteps
 		{
 			runningLogger.writeToLog(loggerValues.loginAsCmsSupervisor+loggerValues.qa);
 			List<String> pageInfo = new ArrayList<String>();
-			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
-					"", "LoginButton", "https://qa.cmsdriveguard.co.uk/AnalysisAuditTrail.aspx"));
+			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "test.cms08@collisionmanagementsystems.co.uk",
+					"QApassword1!", "LoginButton", "https://qa.cmsdriveguard.co.uk/AnalysisAuditTrail.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webPageFunctionalityError, testCodes.testLoginAsCMSSupervisorQa));
 			assertionTest(codesForTest, "");
@@ -1026,8 +1084,8 @@ public class FeatureSteps
 		{
 			runningLogger.writeToLog(loggerValues.loginAsCmsOperator+loggerValues.qa);
 			List<String> pageInfo = new ArrayList<String>();
-			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
-					"", "LoginButton", "https://qa.cmsdriveguard.co.uk/CMSAnalystHome.aspx"));
+			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "test.cms09@collisionmanagementsystems.co.uk",
+					"QApassword1!", "LoginButton", "https://qa.cmsdriveguard.co.uk/CMSAnalystHome.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webPageFunctionalityError, testCodes.testLoginAsCMSOperatorQa));
 			assertionTest(codesForTest, "");
@@ -1047,8 +1105,8 @@ public class FeatureSteps
 		{
 			runningLogger.writeToLog(loggerValues.loginAsCHAdmin+loggerValues.qa);
 			List<String> pageInfo = new ArrayList<String>();
-			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
-					"", "LoginButton", "https://qa.cmsdriveguard.co.uk/ClaimsHandlerRolesAndUsers.aspx"));
+			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "test.cms04@collisionmanagementsystems.co.uk",
+					"QACHpassword1!", "LoginButton", "https://qa.cmsdriveguard.co.uk/ClaimsHandlerRolesAndUsers.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webPageFunctionalityError, testCodes.testLoginAsCHAdminQa));
 			assertionTest(codesForTest, "");
@@ -1068,8 +1126,8 @@ public class FeatureSteps
 		{
 			runningLogger.writeToLog(loggerValues.loginAsCHSupervisor+loggerValues.qa);
 			List<String> pageInfo = new ArrayList<String>();
-			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
-					"", "LoginButton", "https://qa.cmsdriveguard.co.uk/ClaimIncidentAuditTrail.aspx"));
+			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "test.cms05@collisionmanagementsystems.co.uk",
+					"QACHpassword1!", "LoginButton", "https://qa.cmsdriveguard.co.uk/ClaimIncidentAuditTrail.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webPageFunctionalityError, testCodes.testLoginAsCHSupervisorQa));
 			assertionTest(codesForTest, "");
@@ -1089,8 +1147,8 @@ public class FeatureSteps
 		{
 			runningLogger.writeToLog(loggerValues.loginAsCHOperator+loggerValues.qa);
 			List<String> pageInfo = new ArrayList<String>();
-			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
-					"", "LoginButton", "https://qa.cmsdriveguard.co.uk/ClaimHandlerHome.aspx"));
+			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "test.cms06@collisionmanagementsystems.co.uk",
+					"QACHpassword1!", "LoginButton", "https://qa.cmsdriveguard.co.uk/ClaimHandlerHome.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webPageFunctionalityError, testCodes.testLoginAsCHOperatorQa));
 			assertionTest(codesForTest, "");
@@ -1110,8 +1168,8 @@ public class FeatureSteps
 		{
 			runningLogger.writeToLog(loggerValues.loginAsRRAdmin+loggerValues.qa);
 			List<String> pageInfo = new ArrayList<String>();
-			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
-					"", "LoginButton", "https://qa.cmsdriveguard.co.uk/RapidResponderRolesAndUsers.aspx"));
+			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "test.cms01@collisionmanagementsystems.co.uk",
+					"QARRpassword1!", "LoginButton", "https://qa.cmsdriveguard.co.uk/RapidResponderRolesAndUsers.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webPageFunctionalityError, testCodes.testLoginAsRRAdminQa));
 			assertionTest(codesForTest, "");
@@ -1131,8 +1189,8 @@ public class FeatureSteps
 		{
 			runningLogger.writeToLog(loggerValues.loginAsRRSupervisor+loggerValues.qa);
 			List<String> pageInfo = new ArrayList<String>();
-			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
-					"", "LoginButton", "https://qa.cmsdriveguard.co.uk/FNOLIncidentAuditTrail.aspx"));
+			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "test.cms02@collisionmanagementsystems.co.uk",
+					"QARRpassword1!", "LoginButton", "https://qa.cmsdriveguard.co.uk/FNOLIncidentAuditTrail.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webPageFunctionalityError, testCodes.testLoginAsRRSupervisorQa));
 			assertionTest(codesForTest, "");
@@ -1152,8 +1210,8 @@ public class FeatureSteps
 		{
 			runningLogger.writeToLog(loggerValues.loginAsRROperator+loggerValues.qa);
 			List<String> pageInfo = new ArrayList<String>();
-			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
-					"", "LoginButton", "https://qa.cmsdriveguard.co.uk/FleetOperatorHome.aspx"));
+			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "test.cms03@collisionmanagementsystems.co.uk",
+					"QApassword#1", "LoginButton", "https://qa.cmsdriveguard.co.uk/FleetOperatorHome.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webPageFunctionalityError, testCodes.testLoginAsRROperatorQa));
 			assertionTest(codesForTest, "");

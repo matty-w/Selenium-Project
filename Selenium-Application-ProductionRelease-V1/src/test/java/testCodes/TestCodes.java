@@ -30,6 +30,9 @@ public class TestCodes
 	public final int testLoginAsRRAdminProd = 121;
 	public final int testLoginAsRRSupervisorProd = 122;
 	public final int testLoginAsRROperatorProd = 123;
+	public final int testClickOnElementWithinIframe = 998;
+	public final int testCheckElementWithinIframe = 997;
+	
 	
 	public final int testLoginAsCMSAdminQa = 124;
 	public final int testLoginAsCMSSupervisorQa = 125;
@@ -44,12 +47,15 @@ public class TestCodes
 	public final int testImpersonateFunctionality = 133;
 	public final int testSortColumnFunctionality = 134;
 	
+	public final int testGenericLogin = 135;
+	
 	public final int webElementError = 201;
 	public final int elementNotFound = 202;
 	public final int couldntTypeValueInElement = 203;
 	public final int elementCouldntBeClicked = 204;
 	public final int elementCouldntBeCleared = 205;
 	public final int webElementNotVisible = 206;
+	public final int pageTimeoutOnElementClick = 207;
 	
 	public final int webAddressError = 301;
 	public final int webPageNotReached = 302;
@@ -69,4 +75,9 @@ public class TestCodes
 	
 	public final int checkPageExceptionLeak = 601;
 	public final int clearElementExceptionLeak = 602; 
+	
+	
+	public final int findNavigationBar = 999;
+	
+
 }

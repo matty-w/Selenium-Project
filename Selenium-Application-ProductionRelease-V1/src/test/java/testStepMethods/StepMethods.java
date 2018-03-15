@@ -176,6 +176,61 @@ public class StepMethods
 		return testCode;
 	}
 	
+	public int clickElementWithinIframe(String elementTag, String iFrameElement, String tagTypeElement, String tagTypeFrame, WebDriver webDriver)
+	{
+		int testCode = 0;
+		testCode = genericMethod.createIframeDriver(iFrameElement, tagTypeFrame, webDriver);
+		if(testCode != 0)
+			return testCode;
+		webDriver.switchTo().defaultContent();
+		WebDriver iFrameDriver = createIframeDriver(iFrameElement, webDriver);
+		testCode = genericMethod.verifyElement(elementTag, tagTypeElement, iFrameDriver);
+		if(testCode != 0)
+			return testCode;
+		WebElement element = createConfirmedElement(elementTag, tagTypeElement, webDriver);
+		testCode = genericMethod.elementIsVisible(element);
+		if(testCode != 0)
+			return testCode;
+		testCode = genericMethod.clickElement(element, iFrameDriver);
+		if(testCode != 0)
+			return testCode;
+		webDriver.switchTo().defaultContent();
+		return testCode;
+	}
+	
+	public int checkElementWithinIframe(String elementTag, String iFrameElement, String tagTypeElement, String tagTypeFrame, WebDriver webDriver)
+	{
+		int testCode = 0;
+		testCode = genericMethod.createIframeDriver(iFrameElement, tagTypeFrame, webDriver);
+		if(testCode != 0)
+			return testCode;
+		webDriver.switchTo().defaultContent();
+		WebDriver iFrameDriver = createIframeDriver(iFrameElement, webDriver);
+		testCode = genericMethod.verifyElement(elementTag, tagTypeElement, iFrameDriver);
+		if(testCode != 0)
+			return testCode;
+		WebElement element = createConfirmedElement(elementTag, tagTypeElement, webDriver);
+		testCode = genericMethod.elementIsVisible(element);
+		if(testCode != 0)
+			return testCode;
+		webDriver.switchTo().defaultContent();
+		return testCode;
+	}
+	
+	private WebDriver createIframeDriver(String frameId, WebDriver webDriver) 
+	{
+		WebElement iFrame = webDriver.findElement(By.id(frameId));
+		WebDriver driver2 = webDriver.switchTo().frame(iFrame);
+		return driver2;
+	}
+
+	public int assertCorrectPageHasLoadedForLogin(String expectedPage, WebDriver webDriver)
+	{
+		int testCode = 0;
+		testCode = genericMethod.checkPageReached(expectedPage, webDriver, true);		
+		return testCode;
+	}
+	
 	public int clickNavigationElement(String menuId,WebElement navElement,String expectedPage,boolean skipPopMenu,WebDriver driver) 
 	{
 		int testCode = 0;
