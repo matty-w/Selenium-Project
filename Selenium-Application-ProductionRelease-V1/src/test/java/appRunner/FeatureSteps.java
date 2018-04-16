@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 import org.openqa.selenium.By;
@@ -145,6 +146,21 @@ public class FeatureSteps
 		catch(Exception e)
 		{
 			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
+		}
+	}
+	
+	@Then("wait specified time \"([^\"]*)\"$")
+	public void waitForSpecifiedTime(String timeSeconds)
+	{
+		String intString = timeSeconds;
+		int stringToInt = Integer.parseInt(intString);
+		try
+		{
+			TimeUnit.SECONDS.sleep(stringToInt);
+		} 
+		catch (InterruptedException e) 
+		{
+			e.printStackTrace();
 		}
 	}
 	

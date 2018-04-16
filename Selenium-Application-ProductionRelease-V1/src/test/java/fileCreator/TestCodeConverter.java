@@ -138,7 +138,7 @@ public class TestCodeConverter
 			else if(errorCode == tc.couldntTypeValueInElement)
 				error = "Error Typing Value Into The Element, Either The Element Does Not Exist, Or There Is No Value To Type. Check Test";
 			else if(errorCode == tc.pageTimeoutOnElementClick)
-				error = "Once The Element Was Clicked, There Was No Response Within 10 Seconds From The Page. The Server Appears To Be Responding Slowly";
+				error = "Once The Element Was Clicked, There Was No Response Within 60 Seconds From The Page. The Server Appears To Be Responding Slowly";
 			else
 				error = "Unknown Error Code. Code Used: "+errorCode;
 			

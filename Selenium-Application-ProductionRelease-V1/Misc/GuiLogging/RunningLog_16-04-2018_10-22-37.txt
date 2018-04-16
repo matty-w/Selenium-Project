@@ -1,0 +1,179 @@
+[16-04-2018_10:22:21] - Create Excel File
+[16-04-2018_10:22:21] - Excel File Created
+[16-04-2018_10:22:21] - Create Excel Tabs
+[16-04-2018_10:22:22] - Excel Tabs Created
+[16-04-2018_10:22:22] - Columns Autosized
+[16-04-2018_10:22:22] - Create Excel Cell Style
+[16-04-2018_10:22:22] - Cell Style Created
+[16-04-2018_10:22:22] - Calculate Worksheet Number
+[16-04-2018_10:22:22] - Worksheet Number Calculated: 8
+[16-04-2018_10:22:22] - Create Cell
+[16-04-2018_10:22:22] - Cell Created: Total Steps Completed
+[16-04-2018_10:22:22] - Create Cell
+[16-04-2018_10:22:22] - Cell Created: Total Steps Passed
+[16-04-2018_10:22:22] - Create Cell
+[16-04-2018_10:22:22] - Cell Created: Total Steps Failed
+[16-04-2018_10:22:22] - Create Cell
+[16-04-2018_10:22:22] - Cell Created: Total Fail Percentage
+[16-04-2018_10:22:22] - Create Cell
+[16-04-2018_10:22:22] - Cell Created: Total Steps Completed
+[16-04-2018_10:22:22] - Create Cell
+[16-04-2018_10:22:22] - Cell Created: Total Steps Passed
+[16-04-2018_10:22:22] - Create Cell
+[16-04-2018_10:22:22] - Cell Created: Total Steps Failed
+[16-04-2018_10:22:22] - Create Cell
+[16-04-2018_10:22:22] - Cell Created: Total Fail Percentage
+[16-04-2018_10:22:22] - Create Cell
+[16-04-2018_10:22:22] - Cell Created: Total Steps Completed
+[16-04-2018_10:22:22] - Create Cell
+[16-04-2018_10:22:22] - Cell Created: Total Steps Passed
+[16-04-2018_10:22:22] - Create Cell
+[16-04-2018_10:22:22] - Cell Created: Total Steps Failed
+[16-04-2018_10:22:22] - Create Cell
+[16-04-2018_10:22:22] - Cell Created: Total Fail Percentage
+[16-04-2018_10:22:22] - Create Cell
+[16-04-2018_10:22:22] - Cell Created: Total Steps Completed
+[16-04-2018_10:22:22] - Create Cell
+[16-04-2018_10:22:22] - Cell Created: Total Steps Passed
+[16-04-2018_10:22:22] - Create Cell
+[16-04-2018_10:22:22] - Cell Created: Total Steps Failed
+[16-04-2018_10:22:22] - Create Cell
+[16-04-2018_10:22:22] - Cell Created: Total Fail Percentage
+[16-04-2018_10:22:22] - Write To Workbook
+[16-04-2018_10:22:22] - Written To Workbook
+[16-04-2018_10:22:26] - Create Test Title
+[16-04-2018_10:22:26] - Create Worksheet Cell Style
+[16-04-2018_10:22:26] - Workshet Cell Style Created
+[16-04-2018_10:22:26] - Test Title Created
+[16-04-2018_10:22:26] - Create Worksheet Cell Style
+[16-04-2018_10:22:26] - Workshet Cell Style Created
+[16-04-2018_10:22:26] - Create Worksheet Cell Style
+[16-04-2018_10:22:26] - Workshet Cell Style Created
+[16-04-2018_10:22:26] - Create Excel Row
+[16-04-2018_10:22:26] - Excel Row Created
+[16-04-2018_10:22:26] - Open Chrome Driver ASSERTED
+[16-04-2018_10:22:26] - Maximise Window
+[16-04-2018_10:22:26] - Maximise Window
+[16-04-2018_10:22:27] - Window Maximised
+[16-04-2018_10:22:27] - Window Maximised
+[16-04-2018_10:22:27] - Create Worksheet Cell Style
+[16-04-2018_10:22:27] - Workshet Cell Style Created
+[16-04-2018_10:22:27] - Create Worksheet Cell Style
+[16-04-2018_10:22:27] - Workshet Cell Style Created
+[16-04-2018_10:22:27] - Create Excel Row
+[16-04-2018_10:22:27] - Excel Row Created
+[16-04-2018_10:22:27] - Window Maximised ASSERTED
+[16-04-2018_10:22:27] - Navigate To DriveGuard (Production)
+[16-04-2018_10:22:29] - Navigate To DriveGuard Attempted
+[16-04-2018_10:22:29] - Create Worksheet Cell Style
+[16-04-2018_10:22:29] - Workshet Cell Style Created
+[16-04-2018_10:22:29] - Create Worksheet Cell Style
+[16-04-2018_10:22:29] - Workshet Cell Style Created
+[16-04-2018_10:22:29] - Create Excel Row
+[16-04-2018_10:22:29] - Excel Row Created
+[16-04-2018_10:22:29] - Login As CH Supervisor (QA)
+[16-04-2018_10:22:32] - Create Worksheet Cell Style
+[16-04-2018_10:22:32] - Workshet Cell Style Created
+[16-04-2018_10:22:32] - Create Worksheet Cell Style
+[16-04-2018_10:22:32] - Workshet Cell Style Created
+[16-04-2018_10:22:32] - Create Excel Row
+[16-04-2018_10:22:32] - Excel Row Created
+[16-04-2018_10:22:32] - Login As CH Supervisor ASSERTED
+[16-04-2018_10:22:32] - Click The Element - ctl00_MainContent_grdFNOLIncidentList_ctl02_btnview
+[16-04-2018_10:22:33] - Element Clicked - ctl00_MainContent_grdFNOLIncidentList_ctl02_btnview
+[16-04-2018_10:22:33] - Create Worksheet Cell Style
+[16-04-2018_10:22:33] - Workshet Cell Style Created
+[16-04-2018_10:22:33] - Create Worksheet Cell Style
+[16-04-2018_10:22:33] - Workshet Cell Style Created
+[16-04-2018_10:22:33] - Create Excel Row
+[16-04-2018_10:22:33] - Excel Row Created
+[16-04-2018_10:22:33] - Click The Element - ctl00_MainContent_grdFNOLIncidentList_ctl02_btnview ASSERTED
+[16-04-2018_10:22:33] - Check Element - ctl00_MainContent_tcIncidnetDetails_tbpnloverview_tab
+[16-04-2018_10:22:34] - Create Worksheet Cell Style
+[16-04-2018_10:22:34] - Workshet Cell Style Created
+[16-04-2018_10:22:34] - Create Worksheet Cell Style
+[16-04-2018_10:22:34] - Workshet Cell Style Created
+[16-04-2018_10:22:34] - Create Excel Row
+[16-04-2018_10:22:34] - Excel Row Created
+[16-04-2018_10:22:34] - Check Element - ctl00_MainContent_tcIncidnetDetails_tbpnloverview_tab ASSERTED
+[16-04-2018_10:22:34] - Check Element - __tab_ctl00_MainContent_tcIncidnetDetails_tbpnlincidentdetails
+[16-04-2018_10:22:34] - Create Worksheet Cell Style
+[16-04-2018_10:22:34] - Workshet Cell Style Created
+[16-04-2018_10:22:34] - Create Worksheet Cell Style
+[16-04-2018_10:22:34] - Workshet Cell Style Created
+[16-04-2018_10:22:34] - Create Excel Row
+[16-04-2018_10:22:34] - Excel Row Created
+[16-04-2018_10:22:34] - Check Element - __tab_ctl00_MainContent_tcIncidnetDetails_tbpnlincidentdetails ASSERTED
+[16-04-2018_10:22:34] - Check Element - __tab_ctl00_MainContent_tcIncidnetDetails_tbpnlevidences
+[16-04-2018_10:22:34] - Create Worksheet Cell Style
+[16-04-2018_10:22:34] - Workshet Cell Style Created
+[16-04-2018_10:22:34] - Create Worksheet Cell Style
+[16-04-2018_10:22:34] - Workshet Cell Style Created
+[16-04-2018_10:22:34] - Create Excel Row
+[16-04-2018_10:22:34] - Excel Row Created
+[16-04-2018_10:22:34] - Check Element - __tab_ctl00_MainContent_tcIncidnetDetails_tbpnlevidences ASSERTED
+[16-04-2018_10:22:34] - Check Element - __tab_ctl00_MainContent_tcIncidnetDetails_tbpnlCollisionReport
+[16-04-2018_10:22:34] - Create Worksheet Cell Style
+[16-04-2018_10:22:34] - Workshet Cell Style Created
+[16-04-2018_10:22:34] - Create Worksheet Cell Style
+[16-04-2018_10:22:34] - Workshet Cell Style Created
+[16-04-2018_10:22:34] - Create Excel Row
+[16-04-2018_10:22:34] - Excel Row Created
+[16-04-2018_10:22:34] - Check Element - __tab_ctl00_MainContent_tcIncidnetDetails_tbpnlCollisionReport ASSERTED
+[16-04-2018_10:22:34] - Check Element - __tab_ctl00_MainContent_tcIncidnetDetails_tbpnlEvidenceCaptureForm
+[16-04-2018_10:22:35] - Create Worksheet Cell Style
+[16-04-2018_10:22:35] - Workshet Cell Style Created
+[16-04-2018_10:22:35] - Create Worksheet Cell Style
+[16-04-2018_10:22:35] - Workshet Cell Style Created
+[16-04-2018_10:22:35] - Create Excel Row
+[16-04-2018_10:22:35] - Excel Row Created
+[16-04-2018_10:22:35] - Check Element - __tab_ctl00_MainContent_tcIncidnetDetails_tbpnlEvidenceCaptureForm ASSERTED
+[16-04-2018_10:22:35] - Click The Element - __tab_ctl00_MainContent_tcIncidnetDetails_tbpnlEvidenceCaptureForm
+[16-04-2018_10:22:35] - Element Clicked - __tab_ctl00_MainContent_tcIncidnetDetails_tbpnlEvidenceCaptureForm
+[16-04-2018_10:22:35] - Create Worksheet Cell Style
+[16-04-2018_10:22:35] - Workshet Cell Style Created
+[16-04-2018_10:22:35] - Create Worksheet Cell Style
+[16-04-2018_10:22:35] - Workshet Cell Style Created
+[16-04-2018_10:22:35] - Create Excel Row
+[16-04-2018_10:22:35] - Excel Row Created
+[16-04-2018_10:22:35] - Click The Element - __tab_ctl00_MainContent_tcIncidnetDetails_tbpnlEvidenceCaptureForm ASSERTED
+[16-04-2018_10:22:35] - Click The Element - ctl00_MainContent_tcIncidnetDetails_tbpnlEvidenceCaptureForm_ucEvidenceCaptureForms_btnFirstPartyEvidence
+[16-04-2018_10:22:35] - Element Clicked - ctl00_MainContent_tcIncidnetDetails_tbpnlEvidenceCaptureForm_ucEvidenceCaptureForms_btnFirstPartyEvidence
+[16-04-2018_10:22:35] - Create Worksheet Cell Style
+[16-04-2018_10:22:35] - Workshet Cell Style Created
+[16-04-2018_10:22:35] - Create Worksheet Cell Style
+[16-04-2018_10:22:35] - Workshet Cell Style Created
+[16-04-2018_10:22:35] - Create Excel Row
+[16-04-2018_10:22:35] - Excel Row Created
+[16-04-2018_10:22:35] - Click The Element - ctl00_MainContent_tcIncidnetDetails_tbpnlEvidenceCaptureForm_ucEvidenceCaptureForms_btnFirstPartyEvidence ASSERTED
+[16-04-2018_10:22:35] - Create Test Title
+[16-04-2018_10:22:35] - Create Worksheet Cell Style
+[16-04-2018_10:22:35] - Workshet Cell Style Created
+[16-04-2018_10:22:35] - Create Title Row
+[16-04-2018_10:22:35] - Title Row Created
+[16-04-2018_10:22:35] - Test Title Created
+[16-04-2018_10:22:35] - Create Worksheet Cell Style
+[16-04-2018_10:22:36] - Workshet Cell Style Created
+[16-04-2018_10:22:36] - Create Worksheet Cell Style
+[16-04-2018_10:22:36] - Workshet Cell Style Created
+[16-04-2018_10:22:36] - Create Excel Row
+[16-04-2018_10:22:36] - Excel Row Created
+[16-04-2018_10:22:36] - Create Test Title
+[16-04-2018_10:22:36] - Create Worksheet Cell Style
+[16-04-2018_10:22:36] - Workshet Cell Style Created
+[16-04-2018_10:22:36] - Test Title Created
+[16-04-2018_10:22:36] - Create Worksheet Cell Style
+[16-04-2018_10:22:36] - Workshet Cell Style Created
+[16-04-2018_10:22:36] - Create Worksheet Cell Style
+[16-04-2018_10:22:36] - Workshet Cell Style Created
+[16-04-2018_10:22:36] - Create Excel Row
+[16-04-2018_10:22:36] - Excel Row Created
+[16-04-2018_10:22:36] - Close The Driver
+[16-04-2018_10:22:37] - Driver Closed
+[16-04-2018_10:22:37] - Create Worksheet Cell Style
+[16-04-2018_10:22:37] - Workshet Cell Style Created
+[16-04-2018_10:22:37] - Create Worksheet Cell Style
+[16-04-2018_10:22:37] - Workshet Cell Style Created
+[16-04-2018_10:22:37] - Create Excel Row
+[16-04-2018_10:22:37] - Excel Row Created
+[16-04-2018_10:22:37] - Close The Driver ASSERTED

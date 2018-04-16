@@ -1,0 +1,106 @@
+[16-03-2018_10:55:49] - Create Excel File
+[16-03-2018_10:55:49] - Excel File Created
+[16-03-2018_10:55:49] - Create Excel Tabs
+[16-03-2018_10:55:50] - Excel Tabs Created
+[16-03-2018_10:55:50] - Columns Autosized
+[16-03-2018_10:55:50] - Create Excel Cell Style
+[16-03-2018_10:55:50] - Cell Style Created
+[16-03-2018_10:55:50] - Calculate Worksheet Number
+[16-03-2018_10:55:50] - Worksheet Number Calculated: 8
+[16-03-2018_10:55:50] - Create Cell
+[16-03-2018_10:55:50] - Cell Created: Total Steps Completed
+[16-03-2018_10:55:50] - Create Cell
+[16-03-2018_10:55:50] - Cell Created: Total Steps Passed
+[16-03-2018_10:55:50] - Create Cell
+[16-03-2018_10:55:50] - Cell Created: Total Steps Failed
+[16-03-2018_10:55:50] - Create Cell
+[16-03-2018_10:55:50] - Cell Created: Total Fail Percentage
+[16-03-2018_10:55:50] - Create Cell
+[16-03-2018_10:55:50] - Cell Created: Total Steps Completed
+[16-03-2018_10:55:50] - Create Cell
+[16-03-2018_10:55:50] - Cell Created: Total Steps Passed
+[16-03-2018_10:55:50] - Create Cell
+[16-03-2018_10:55:50] - Cell Created: Total Steps Failed
+[16-03-2018_10:55:50] - Create Cell
+[16-03-2018_10:55:50] - Cell Created: Total Fail Percentage
+[16-03-2018_10:55:50] - Create Cell
+[16-03-2018_10:55:50] - Cell Created: Total Steps Completed
+[16-03-2018_10:55:50] - Create Cell
+[16-03-2018_10:55:50] - Cell Created: Total Steps Passed
+[16-03-2018_10:55:50] - Create Cell
+[16-03-2018_10:55:50] - Cell Created: Total Steps Failed
+[16-03-2018_10:55:50] - Create Cell
+[16-03-2018_10:55:50] - Cell Created: Total Fail Percentage
+[16-03-2018_10:55:50] - Create Cell
+[16-03-2018_10:55:50] - Cell Created: Total Steps Completed
+[16-03-2018_10:55:50] - Create Cell
+[16-03-2018_10:55:50] - Cell Created: Total Steps Passed
+[16-03-2018_10:55:50] - Create Cell
+[16-03-2018_10:55:50] - Cell Created: Total Steps Failed
+[16-03-2018_10:55:50] - Create Cell
+[16-03-2018_10:55:50] - Cell Created: Total Fail Percentage
+[16-03-2018_10:55:50] - Write To Workbook
+[16-03-2018_10:55:50] - Written To Workbook
+[16-03-2018_10:55:54] - Create Test Title
+[16-03-2018_10:55:54] - Create Worksheet Cell Style
+[16-03-2018_10:55:54] - Workshet Cell Style Created
+[16-03-2018_10:55:54] - Test Title Created
+[16-03-2018_10:55:54] - Create Worksheet Cell Style
+[16-03-2018_10:55:54] - Workshet Cell Style Created
+[16-03-2018_10:55:54] - Create Worksheet Cell Style
+[16-03-2018_10:55:54] - Workshet Cell Style Created
+[16-03-2018_10:55:54] - Create Excel Row
+[16-03-2018_10:55:54] - Excel Row Created
+[16-03-2018_10:55:54] - Open Chrome Driver ASSERTED
+[16-03-2018_10:55:54] - Maximise Window
+[16-03-2018_10:55:54] - Maximise Window
+[16-03-2018_10:55:55] - Window Maximised
+[16-03-2018_10:55:55] - Window Maximised
+[16-03-2018_10:55:55] - Create Worksheet Cell Style
+[16-03-2018_10:55:56] - Workshet Cell Style Created
+[16-03-2018_10:55:56] - Create Worksheet Cell Style
+[16-03-2018_10:55:56] - Workshet Cell Style Created
+[16-03-2018_10:55:56] - Create Excel Row
+[16-03-2018_10:55:56] - Excel Row Created
+[16-03-2018_10:55:56] - Window Maximised ASSERTED
+[16-03-2018_10:55:56] - Navigate To DriveGuard (Production)
+[16-03-2018_10:55:57] - Navigate To DriveGuard Attempted
+[16-03-2018_10:55:57] - Create Worksheet Cell Style
+[16-03-2018_10:55:57] - Workshet Cell Style Created
+[16-03-2018_10:55:57] - Create Worksheet Cell Style
+[16-03-2018_10:55:57] - Workshet Cell Style Created
+[16-03-2018_10:55:57] - Create Excel Row
+[16-03-2018_10:55:57] - Excel Row Created
+[16-03-2018_10:55:57] - Login As CMS Operator (QA)
+[16-03-2018_10:55:58] - Create Worksheet Cell Style
+[16-03-2018_10:55:58] - Workshet Cell Style Created
+[16-03-2018_10:55:58] - Create Worksheet Cell Style
+[16-03-2018_10:55:58] - Workshet Cell Style Created
+[16-03-2018_10:55:58] - Create Excel Row
+[16-03-2018_10:55:58] - Excel Row Created
+[16-03-2018_10:55:58] - Login As CMS Operator ASSERTED
+[16-03-2018_10:55:58] - Check Element - ctl00_NavigationMenu
+[16-03-2018_10:55:59] - ERROR - null
+[16-03-2018_10:55:59] - Create Expected Input List For Table - ctl00_MainContent_grdAssignedAnalyst
+[16-03-2018_10:56:09] - Expected Input Created For - ctl00_MainContent_grdAssignedAnalyst
+[16-03-2018_10:56:09] - Create Test Title
+[16-03-2018_10:56:09] - Create Worksheet Cell Style
+[16-03-2018_10:56:09] - Workshet Cell Style Created
+[16-03-2018_10:56:09] - Create Title Row
+[16-03-2018_10:56:09] - Title Row Created
+[16-03-2018_10:56:09] - Test Title Created
+[16-03-2018_10:56:09] - Create Worksheet Cell Style
+[16-03-2018_10:56:09] - Workshet Cell Style Created
+[16-03-2018_10:56:09] - Create Worksheet Cell Style
+[16-03-2018_10:56:09] - Workshet Cell Style Created
+[16-03-2018_10:56:09] - Create Excel Row
+[16-03-2018_10:56:09] - Excel Row Created
+[16-03-2018_10:56:09] - Close The Driver
+[16-03-2018_10:56:10] - Driver Closed
+[16-03-2018_10:56:10] - Create Worksheet Cell Style
+[16-03-2018_10:56:10] - Workshet Cell Style Created
+[16-03-2018_10:56:10] - Create Worksheet Cell Style
+[16-03-2018_10:56:10] - Workshet Cell Style Created
+[16-03-2018_10:56:10] - Create Excel Row
+[16-03-2018_10:56:10] - Excel Row Created
+[16-03-2018_10:56:11] - Close The Driver ASSERTED
