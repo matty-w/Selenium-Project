@@ -48,6 +48,20 @@ public class QuickStepMethods
 		return testCode;
 	}
 	
+	public int impersonateUser(List<String> pageInfo, WebDriver webDriver)
+	{
+		
+		int testCode = 0;
+		testCode = stepMethods.clickElement(pageInfo.get(0), "id", webDriver);
+		if(testCode != 0)
+			return testCode;
+		testCode = stepMethods.assertPageTransitionSuccessful(pageInfo.get(1), webDriver, false);
+		if(testCode != 0)
+			return testCode;
+		
+		return testCode;
+	}
+	
 	public int checkTableSort(List<String> pageInfo, WebDriver webDriver)
 	{
 		runningLogger.writeToLog("CTS1");

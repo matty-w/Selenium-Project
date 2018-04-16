@@ -78,6 +78,12 @@ public class TestCodeConverter
 			return "Check To See Whether Login Was Successful";
 		if(testCode == tc.findNavigationBar)
 			return "Attempt To Find Navigation Bar For Logged In User";
+		if(testCode == tc.testCheckElementWithinIframe)
+			return "Check For Element Within IFrame";
+		if(testCode == tc.testClickOnElementWithinIframe)
+			return "Click Element Within IFrame";
+		if(testCode == tc.impersonateUser)
+			return "Impersonate The User: ";
 		return "Invalid test, please check codebase, code given: "+testCode;
 	}
 	
@@ -139,6 +145,8 @@ public class TestCodeConverter
 				error = "Error Typing Value Into The Element, Either The Element Does Not Exist, Or There Is No Value To Type. Check Test";
 			else if(errorCode == tc.pageTimeoutOnElementClick)
 				error = "Once The Element Was Clicked, There Was No Response Within 60 Seconds From The Page. The Server Appears To Be Responding Slowly";
+			else if(errorCode == tc.unableToFindIFrameToCreateElement)
+				return "Unable To Find Element - IFrame (Menu Popup) Could Not Be Found/Created";
 			else
 				error = "Unknown Error Code. Code Used: "+errorCode;
 			

@@ -280,7 +280,7 @@ public class GenericMethods
 		}
 		catch(Exception e)
 		{
-			return 1000;
+			return tc.unableToFindIFrameToCreateElement;
 		}
 	}
 	
@@ -291,6 +291,27 @@ public class GenericMethods
 		try
 		{
 			webDriver.switchTo().defaultContent();
+			JavascriptExecutor executor = (JavascriptExecutor) webDriver;
+			webDriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+			new Actions(webDriver).moveToElement(element).perform();
+			executor.executeScript("arguments[0].click();", element);
+		}
+		catch(Exception e)
+		{
+			if(e instanceof org.openqa.selenium.TimeoutException)
+				testCode = tc.pageTimeoutOnElementClick;
+			else	
+				testCode = tc.elementCouldntBeClicked;
+		}
+
+		return testCode;
+	}
+	
+	public int clickIframeElement(WebElement element, WebDriver webDriver)
+	{
+		int testCode = 0;
+		try
+		{
 			JavascriptExecutor executor = (JavascriptExecutor) webDriver;
 			webDriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 			new Actions(webDriver).moveToElement(element).perform();

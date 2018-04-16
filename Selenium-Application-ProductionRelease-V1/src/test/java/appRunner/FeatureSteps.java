@@ -314,7 +314,7 @@ public class FeatureSteps
 	@Then("^check the element within iFrame \"([^\"]*)\" \"([^\"]*)\"$")
 	public void checkSelectedElementWithinIframe(String elementToCheckId, String iFrameElementId)
 	{
-		runnerCode = stepMethods.clickElementWithinIframe(elementToCheckId, iFrameElementId, "id", "id", driver);
+		runnerCode = stepMethods.checkElementWithinIframe(elementToCheckId, iFrameElementId, "id", "id", driver);
 		codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webElementError, testCodes.testCheckElementWithinIframe));
 		assertionTest(codesForTest, elementToCheckId);
 		codesForTest.clear();
@@ -487,6 +487,36 @@ public class FeatureSteps
 		catch(Exception e)
 		{
 			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
+		}
+	}
+	
+	@Then("^impersonate user \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")
+	public void impersonateUser(String originalUser, String userToImpersonate, String expectedPage)
+	{
+		try
+		{
+			List<String> testStringInfo = new ArrayList<String>();
+			String impersonateButton = "";
+			
+			if(originalUser.equals("rr admin"))
+				if(userToImpersonate.equals("rr operator"))
+					impersonateButton = "ctl00_MainContent_gvwUsers_ctl03_btnImpersonate";
+				else if(userToImpersonate.equals("rr supervisor"))
+					impersonateButton = "ctl00_MainContent_gvwUsers_ctl04_btnImpersonate";
+			
+			testStringInfo.add(impersonateButton);
+			testStringInfo.add(expectedPage);
+			
+			runnerCode = quickStepMethods.impersonateUser(testStringInfo, driver);
+			
+			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webPageFunctionalityError, testCodes.impersonateUser));
+			assertionTest(codesForTest, userToImpersonate);
+			codesForTest.clear();
+			
+		}
+		catch(Exception e)
+		{
+			
 		}
 	}
 	
@@ -1227,7 +1257,7 @@ public class FeatureSteps
 			runningLogger.writeToLog(loggerValues.loginAsRROperator+loggerValues.qa);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "test.cms03@collisionmanagementsystems.co.uk",
-					"QApassword#1", "LoginButton", "https://qa.cmsdriveguard.co.uk/FleetOperatorHome.aspx"));
+					"QARRpassword1!", "LoginButton", "https://qa.cmsdriveguard.co.uk/FleetOperatorHome.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webPageFunctionalityError, testCodes.testLoginAsRROperatorQa));
 			assertionTest(codesForTest, "");

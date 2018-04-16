@@ -191,7 +191,7 @@ public class StepMethods
 		testCode = genericMethod.elementIsVisible(element);
 		if(testCode != 0)
 			return testCode;
-		testCode = genericMethod.clickElement(element, iFrameDriver);
+		testCode = genericMethod.clickIframeElement(element, iFrameDriver);
 		if(testCode != 0)
 			return testCode;
 		webDriver.switchTo().defaultContent();

@@ -49,6 +49,8 @@ public class TestCodes
 	
 	public final int testGenericLogin = 135;
 	
+	public final int impersonateUser = 136;
+	
 	public final int webElementError = 201;
 	public final int elementNotFound = 202;
 	public final int couldntTypeValueInElement = 203;
@@ -78,6 +80,8 @@ public class TestCodes
 	
 	
 	public final int findNavigationBar = 999;
+	
+	public final int unableToFindIFrameToCreateElement = 1000;
 	
 
 }
