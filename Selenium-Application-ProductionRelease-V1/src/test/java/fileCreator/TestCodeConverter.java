@@ -84,6 +84,10 @@ public class TestCodeConverter
 			return "Click Element Within IFrame";
 		if(testCode == tc.impersonateUser)
 			return "Impersonate The User: ";
+		if(testCode == tc.clickOnAlertBox)
+			return "Click On The Presented Alert Box";
+		if(testCode == tc.selectOptionOnDropdownBox)
+			return "Select Option From Dropdown Menu";
 		return "Invalid test, please check codebase, code given: "+testCode;
 	}
 	
@@ -146,7 +150,15 @@ public class TestCodeConverter
 			else if(errorCode == tc.pageTimeoutOnElementClick)
 				error = "Once The Element Was Clicked, There Was No Response Within 60 Seconds From The Page. The Server Appears To Be Responding Slowly";
 			else if(errorCode == tc.unableToFindIFrameToCreateElement)
-				return "Unable To Find Element - IFrame (Menu Popup) Could Not Be Found/Created";
+				error =  "Unable To Find Element - IFrame (Menu Popup) Could Not Be Found/Created";
+			else if(errorCode == tc.noAlertBoxPresent)
+				error =  "Unable To Find Alert Box On Page. Is It Possible An Alert Box Should Not Appear Here. Check Page And Running Test";
+			else if(errorCode == tc.couldNotClickAlertBox)
+				error =  "Unable To Click On Presented Alert Box. Possibly Because There Is No Accept Button. Check Webpage";
+			else if(errorCode == tc.webElementIsNotSelectBox)
+				error =  "The Web Element Presented In The Test Is Not A Select Box, Go And Re-check Both The Test And The Webpage";
+			else if(errorCode == tc.cantSelectOptionFromDropdown)
+				error =  "Cannot Select The Option From The Dropdown Box, This Is Likely Due To An Invalid Number Within The Test, Check The Test";
 			else
 				error = "Unknown Error Code. Code Used: "+errorCode;
 			

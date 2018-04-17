@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -336,6 +337,36 @@ public class FeatureSteps
 		codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webElementError, testCodes.testClickOnElementWithinIframe));
 		assertionTest(codesForTest, elementToClickId);
 		codesForTest.clear();
+	}
+	
+	@Then("^select option from dropdown box \"([^\"]*)\" \"([^\"]*)\"$")
+	public void selectOptionFromDropdown(String dropDownId, String dropdownOptionNumber)
+	{
+		int dropdownOption = Integer.parseInt(dropdownOptionNumber);
+		runnerCode = stepMethods.selectOptionFromDropdown(dropDownId, "id", dropdownOption, driver);
+		codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webElementError, testCodes.selectOptionOnDropdownBox));
+		assertionTest(codesForTest, dropDownId);
+		codesForTest.clear();
+	}
+	
+	@Then("^select option from dropdown box \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")
+	public void selectOptionFromDropdown(String dropDownId, String tag, String dropdownOptionNumber)
+	{
+		int dropdownOption = Integer.parseInt(dropdownOptionNumber);
+		runnerCode = stepMethods.selectOptionFromDropdown(dropDownId, tag, dropdownOption, driver);
+		codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webElementError, testCodes.selectOptionOnDropdownBox));
+		assertionTest(codesForTest, dropDownId);
+		codesForTest.clear();
+	}
+	
+	@Then("^click the alert window$")
+	public void clickAlertBox()
+	{
+		runnerCode = stepMethods.clickOnAlertBox(driver);
+		codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webElementError, testCodes.clickOnAlertBox));
+		assertionTest(codesForTest, "");
+		codesForTest.clear();
+
 	}
 	
 	@Then("^check login attempt was successful \"([^\"]*)\"$")

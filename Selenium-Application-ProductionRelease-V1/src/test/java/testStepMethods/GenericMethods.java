@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchWindowException;
@@ -11,6 +12,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import loggingCode.RunningLogger;
@@ -240,6 +242,33 @@ public class GenericMethods
 		}
 	}
 	
+	public int isAlertPresent(WebDriver webDriver)
+	{
+		try
+		{
+			webDriver.switchTo().alert();
+			return 0;
+		}
+		catch(Exception e)
+		{
+			return tc.noAlertBoxPresent;
+		}
+	}
+	
+	public int clickAlertBox(WebDriver webDriver)
+	{
+		try
+		{
+			Alert alert = webDriver.switchTo().alert();
+			alert.accept();
+			return 0;
+		}
+		catch(Exception e)
+		{
+			return tc.couldNotClickAlertBox;
+		}
+	}
+	
 	public int createIframeDriver(String frameId, String tag ,WebDriver webDriver)
 	{
 		int testCode = 0;
@@ -282,6 +311,25 @@ public class GenericMethods
 		{
 			return tc.unableToFindIFrameToCreateElement;
 		}
+	}
+	
+	public int selectOptionFromDropdown(WebElement element, int option)
+	{
+		try
+		{
+			int testCode = 0;
+			Select dropdown = new Select(element);
+			dropdown.selectByIndex(option);
+			return testCode;
+		}
+		catch(Exception e)
+		{
+			if(e instanceof org.openqa.selenium.support.ui.UnexpectedTagNameException)
+				return tc.webElementIsNotSelectBox;
+			else
+				return tc.cantSelectOptionFromDropdown;
+		}
+
 	}
 	
 	

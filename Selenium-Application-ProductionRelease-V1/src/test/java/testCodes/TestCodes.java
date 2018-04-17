@@ -30,8 +30,7 @@ public class TestCodes
 	public final int testLoginAsRRAdminProd = 121;
 	public final int testLoginAsRRSupervisorProd = 122;
 	public final int testLoginAsRROperatorProd = 123;
-	public final int testClickOnElementWithinIframe = 998;
-	public final int testCheckElementWithinIframe = 997;
+
 	
 	
 	public final int testLoginAsCMSAdminQa = 124;
@@ -78,7 +77,16 @@ public class TestCodes
 	public final int checkPageExceptionLeak = 601;
 	public final int clearElementExceptionLeak = 602; 
 	
+	public final int selectOptionOnDropdownBox = 991;
+	public final int webElementIsNotSelectBox = 992;
+	public final int cantSelectOptionFromDropdown = 993;
 	
+	public final int clickOnAlertBox = 994;
+	public final int couldNotClickAlertBox = 995;
+	public final int noAlertBoxPresent = 996;
+	
+	public final int testClickOnElementWithinIframe = 998;
+	public final int testCheckElementWithinIframe = 997;
 	public final int findNavigationBar = 999;
 	
 	public final int unableToFindIFrameToCreateElement = 1000;

@@ -176,6 +176,21 @@ public class StepMethods
 		return testCode;
 	}
 	
+	public int selectOptionFromDropdown(String elementId, String tagType, int option, WebDriver webDriver)
+	{
+		int testCode = 0;
+		testCode = genericMethod.verifyElement(elementId, tagType, webDriver);
+		if(testCode != 0)
+			return testCode;
+		WebElement element = createConfirmedElement(elementId, tagType, webDriver);
+		testCode = genericMethod.elementIsVisible(element);
+		if(testCode != 0)
+			return testCode;
+		testCode = genericMethod.selectOptionFromDropdown(element, option);
+		
+		return testCode;
+	}
+	
 	public int clickElementWithinIframe(String elementTag, String iFrameElement, String tagTypeElement, String tagTypeFrame, WebDriver webDriver)
 	{
 		int testCode = 0;
@@ -215,6 +230,20 @@ public class StepMethods
 			return testCode;
 		webDriver.switchTo().defaultContent();
 		return testCode;
+	}
+	
+	public int clickOnAlertBox(WebDriver webDriver)
+	{
+		int testCode = 0;
+		testCode = genericMethod.isAlertPresent(webDriver);
+		if(testCode != 0)
+			return testCode;
+		testCode = genericMethod.clickAlertBox(webDriver);
+		if(testCode != 0)
+			return testCode;
+		webDriver.switchTo().defaultContent();
+		return testCode;
+		
 	}
 	
 	private WebDriver createIframeDriver(String frameId, WebDriver webDriver) 
