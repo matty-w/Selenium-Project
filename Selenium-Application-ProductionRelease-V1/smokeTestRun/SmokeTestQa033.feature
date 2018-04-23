@@ -1,10 +1,12 @@
-Feature: Test060: Check Elements Are Enabled on Outstanding FNOL Incidents Page - RR Operator : Action - Evidence Capture Forms : 3rd Party Evidence
+Feature: Test033: Impersonate RR Operator, Check Elements On Assigned FNOL Incidents: Evidence Capture Forms : 3rd Party - RR Admin
 
-Scenario Outline: Test060: QA - Check Elements Are Enabled on Outstanding FNOL Incidents Page - RR Operator : Action - Evidence Capture Forms : 3rd Party Evidence
+Scenario Outline: Test033: QA - Impersonate RR Operator, Check Elements On Assigned FNOL Incidents: Evidence Capture Forms : 3rd Party - RR Admin
 	Given The driver is open <browser>
 	When The window is maximised
 	Then navigate to DriveGuard qa
-	Then log in as rr operator qa
+	Then log in as rr admin qa
+	Then impersonate user <admin-user> <impersonate-user> <expected-page>
+	Then wait specified time <time>
 	Then click the element <action-button>
 	Then check the element exists <overview-tab>
 	Then check the element exists <incident-tab>
