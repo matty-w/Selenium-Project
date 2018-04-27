@@ -1,27 +1,33 @@
 package fileCreator;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import loggingCode.RunningLogger;
+import com.google.common.io.ByteStreams;
+
+import gherkin.deps.net.iharder.Base64.OutputStream;
 import loggingCode.RunningLoggerStringValues;
 import testCodes.TestCodes;
 
 public class CreateExcelWorkbook extends WorkbookFactory
 {
 	TestCodeConverter testCodeConverter = new TestCodeConverter();
-	RunningLogger runningLogger = new RunningLogger();
 	RunningLoggerStringValues loggerValues = new RunningLoggerStringValues();
 	TestCodes tc = new TestCodes();
 	
@@ -31,10 +37,8 @@ public class CreateExcelWorkbook extends WorkbookFactory
 	public void createExcelWorkbook(String FILE_NAME)
 	{
 		
-		runningLogger.writeToLog(loggerValues.createExcelFile);
 		FN = FILE_NAME+"\\log.xlsx";
 		File logFile = new File(FN);
-		runningLogger.writeToLog(loggerValues.excelFileCreated);
 		if(logFile.exists())
 		{
 			return;
@@ -43,7 +47,6 @@ public class CreateExcelWorkbook extends WorkbookFactory
 		{
 			try
 			{
-				runningLogger.writeToLog(loggerValues.createExcelTabs);
 				XSSFWorkbook workbook = new XSSFWorkbook();
 				XSSFSheet chromeTestSheet = workbook.createSheet("Chrome Tests");
 				XSSFSheet chromeFailSheet = workbook.createSheet("Chrome Test Fails");
@@ -53,7 +56,6 @@ public class CreateExcelWorkbook extends WorkbookFactory
 				XSSFSheet edgeFailSheet = workbook.createSheet("Edge Test Fails");
 				XSSFSheet ieTestSheet = workbook.createSheet("IE Tests");
 				XSSFSheet ieFailSheet = workbook.createSheet("IE Test Fails");
-				runningLogger.writeToLog(loggerValues.excelTabsCreated);
 				
 				chromeTestSheet.autoSizeColumn(0);
 				chromeFailSheet.autoSizeColumn(0);
@@ -63,17 +65,12 @@ public class CreateExcelWorkbook extends WorkbookFactory
 				edgeFailSheet.autoSizeColumn(0);
 				ieTestSheet.autoSizeColumn(0);
 				ieFailSheet.autoSizeColumn(0);
-				runningLogger.writeToLog(loggerValues.columnsAutosized);
 				
-				runningLogger.writeToLog(loggerValues.createCellStyle);
 				XSSFCellStyle titleStyle = workbook.createCellStyle();
 				titleStyle.setFillForegroundColor(new XSSFColor(new java.awt.Color(94, 133, 212)));
 				titleStyle.setFillPattern(CellStyle.SOLID_FOREGROUND); 
-				runningLogger.writeToLog(loggerValues.cellStyleCreated);
 				
-				runningLogger.writeToLog(loggerValues.calculateWorksheetNumber);
 				int worksheetNumbers = workbook.getNumberOfSheets();
-				runningLogger.writeToLog(loggerValues.worksheetNumCalculated+worksheetNumbers);
 				
 				Object[][] datatypes = {
 						{"Test", "Test Scenario", "Pass Or Fail", "Reason (If Fail)"}};
@@ -108,28 +105,22 @@ public class CreateExcelWorkbook extends WorkbookFactory
 				            int colNum = 0;
 				            for (Object field : testStat) 
 				            {
-				            	runningLogger.writeToLog(loggerValues.createCell);
 				            	Cell intCell = row2.createCell(colNum);
-				            	intCell.setCellType(XSSFCell.CELL_TYPE_NUMERIC);
+				            	intCell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
 				                Cell cell = row.createCell(colNum++);
 				                cell.setCellValue((String) field);
 				                intCell.setCellValue(0);
 				                int cellNum = cell.getColumnIndex();
 				                worksheet.autoSizeColumn(cellNum);
 				                cell.setCellStyle(titleStyle);
-				                runningLogger.writeToLog(loggerValues.cellCreated+field.toString());
 				            }
 				        }
 			        }
 				}
-		        runningLogger.writeToLog(loggerValues.writeToWorkbook);
 				writeToFile(workbook, FN);
-				runningLogger.writeToLog(loggerValues.writtenToWorkbook);
 			}
 			catch(Exception e)
 			{
-				runningLogger.writeToLog(loggerValues.excelWorkbookFail);
-				runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 			}
 		}
 	}
@@ -141,7 +132,6 @@ public class CreateExcelWorkbook extends WorkbookFactory
 		boolean titleAlreadyCreated = boolValues.get(2);
 		if(createTitle == true)
 		{
-			runningLogger.writeToLog(loggerValues.createTestTitle);
 			String testNumber = stringValues.get(0).substring(0, 8);
 			String scenarioStringCut = stringValues.get(0).substring(8);
 			
@@ -150,11 +140,18 @@ public class CreateExcelWorkbook extends WorkbookFactory
 			Object datatypes[][] = {
 					{testNumber, scenarioStringCut, "", ""}};
 			
-			FileInputStream inputStream;
 			try 
 			{
-				inputStream = new FileInputStream(FN);
-				XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+				//File file = new File(FN);
+				//BufferedInputStream is = new BufferedInputStream(new FileInputStream(file));
+				//XSSFWorkbook workbook = new XSSFWorkbook(is);
+				
+				OPCPackage pkg = OPCPackage.open(new File(FN));
+				XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+				
+				File tmp = File.createTempFile("tempSpreadsheet", ".xlsx");
+				FileOutputStream os = new FileOutputStream(tmp);
+				
 				XSSFCellStyle cellStyleTestTitle = createWorksheetCellStyle(workbook, 197, 182, 159);
 				
 				if(browser.equals("Chrome"))
@@ -181,14 +178,17 @@ public class CreateExcelWorkbook extends WorkbookFactory
 					XSSFSheet worksheetFail = workbook.getSheetAt(7);
 					createExcelTitleCells(wasFail, titleAlreadyCreated, datatypes, cellStyleTestTitle, worksheetFull, worksheetFail);
 				}
-				inputStream.close();
-				writeToFile(workbook, FN);
-				runningLogger.writeToLog(loggerValues.testTitleCreated);
+				//is.close();
+		        workbook.write(os);
+		        os.flush();
+		        os.close();
+		        tmp.deleteOnExit();
+		        pkg.close();
+				//workbook.close();
+				//writeToFile(workbook, FN);
 			} 
 			catch (Exception e) 
 			{
-				runningLogger.writeToLog(loggerValues.createTestTitleFail);
-				runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 			}
 			return false;
 		}
@@ -213,8 +213,16 @@ public class CreateExcelWorkbook extends WorkbookFactory
 			if(testCodes.get(0) != 0)
 				passOrFail = "FAIL";
 			
-			FileInputStream inputStream = new FileInputStream(FN);
-			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+			//File file = new File(FN);
+			//BufferedInputStream is = new BufferedInputStream(new FileInputStream(file));
+			//XSSFWorkbook workbook = new XSSFWorkbook(is);
+			
+			OPCPackage pkg = OPCPackage.open(new File(FN));
+			XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+			
+			File tmp = File.createTempFile("tempSpreadsheet", ".xlsx");
+			FileOutputStream os = new FileOutputStream(tmp);
+			
 			XSSFCellStyle cellStylePass = createWorksheetCellStyle(workbook, 132, 195, 123);
 			XSSFCellStyle cellStyleFail = createWorksheetCellStyle(workbook, 247, 99, 99);
 			
@@ -246,13 +254,18 @@ public class CreateExcelWorkbook extends WorkbookFactory
 				sheets.add(7);
 				createExcelRow(sheets, datatypes, workbook, cellStylePass, cellStyleFail, errorDescription, failTitleExists);
 			}
-			inputStream.close();
-			writeToFile(workbook, FN);
+			//is.close();
+	        workbook.write(os);
+	        os.flush();
+	        os.close();
+	        tmp.deleteOnExit();
+	        pkg.close();
+			//workbook.close();
+			//writeToFile(workbook, FN);
+			
 		} 
 		catch (Exception e) 
 		{
-			runningLogger.writeToLog(loggerValues.appendSpreadsheetFail);
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -265,7 +278,6 @@ public class CreateExcelWorkbook extends WorkbookFactory
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 }

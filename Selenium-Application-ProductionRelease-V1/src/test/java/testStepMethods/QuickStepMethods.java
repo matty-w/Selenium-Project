@@ -4,12 +4,10 @@ import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 
-import loggingCode.RunningLogger;
 
 public class QuickStepMethods
 {
 	StepMethods stepMethods = new StepMethods();
-	RunningLogger runningLogger = new RunningLogger();
 	
 	public int logInAsUser(List<String> pageInfo, WebDriver webDriver)
 	{
@@ -64,16 +62,13 @@ public class QuickStepMethods
 	
 	public int checkTableSort(List<String> pageInfo, WebDriver webDriver)
 	{
-		runningLogger.writeToLog("CTS1");
 		int testCode = 0;
 		testCode = stepMethods.checkElement(pageInfo.get(0), "id", webDriver);
 		if(testCode != 0)
 			return testCode;
-		runningLogger.writeToLog("CTS2");
 		testCode = stepMethods.checkElement(pageInfo.get(1), "href", webDriver);
 		if(testCode != 0)
 			return testCode;
-		runningLogger.writeToLog("CTS3");
 		testCode = stepMethods.sortAndCheckTable(pageInfo.get(1), pageInfo.get(0), "href", "id",webDriver);
 		if(testCode != 0)
 			return testCode;

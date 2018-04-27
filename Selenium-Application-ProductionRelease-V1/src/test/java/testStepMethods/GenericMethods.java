@@ -15,7 +15,6 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import loggingCode.RunningLogger;
 import loggingCode.RunningLoggerStringValues;
 import testCodes.TestCodes;
 
@@ -25,7 +24,6 @@ public class GenericMethods
 	List<WebElement> expectedInputList = new ArrayList<WebElement>();
 
 	TestCodes tc = new TestCodes();
-	RunningLogger runningLogger = new RunningLogger();
 	RunningLoggerStringValues loggerValues = new RunningLoggerStringValues();
 	
 	public int checkDriverIsOpen(WebDriver webDriver)
@@ -138,7 +136,6 @@ public class GenericMethods
 		}
 		catch (Exception e) 
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 			return tc.checkPageExceptionLeak;
 		}
 	}
@@ -215,19 +212,11 @@ public class GenericMethods
 			}
 			else if(tagType.equals("href"))
 			{
-				runningLogger.writeToLog("href1");
 				webDriver.manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS);
-				runningLogger.writeToLog("href2");
-				
 				
 				String href = elementTag;
-				runningLogger.writeToLog("href3");
-				runningLogger.writeToLog("//*[@id='ctl00_MainContent_gvwUsers']/tbody/tr[1]/th[1]/a");
-				runningLogger.writeToLog(elementTag);
 				WebElement element = webDriver.findElement(By.xpath(href));
-				runningLogger.writeToLog("href4");
 				element.isDisplayed();
-				runningLogger.writeToLog("href5");
 				return testCode;
 			}
 			else

@@ -14,10 +14,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import consoleRunner.ConsoleRunner;
 import testCodes.TestCodes;
 import cucumber.api.Scenario;
 import cucumber.api.java.Before;
@@ -25,7 +27,6 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import fileCreator.CreateExcelWorkbook;
-import loggingCode.RunningLogger;
 import loggingCode.RunningLoggerStringValues;
 import testStepMethods.QuickStepMethods;
 import testStepMethods.StepMethods;
@@ -36,13 +37,14 @@ public class FeatureSteps
 	boolean failTitleAlreadyAdded = false;
 	
 	Scenario scenario;
-	WebDriver driver;
+	static WebDriver driver = null;
 	
 	List<Integer> codesForTest = new ArrayList<Integer>();
 
 	
 	int runnerCode = 0;
 	int testStep = 0;
+	static int testNumber = 0;
 	
 	String currentBrowser;
 	
@@ -50,7 +52,6 @@ public class FeatureSteps
 	
 	QuickStepMethods quickStepMethods = new QuickStepMethods();
 	
-	RunningLogger runningLogger = new RunningLogger();
 	RunningLoggerStringValues loggerValues = new RunningLoggerStringValues();
 	
 	
@@ -61,6 +62,7 @@ public class FeatureSteps
 	@Before
 	public void before(Scenario scenarioTemp)
 	{
+		testNumber++;
 		this.scenario = scenarioTemp;
 	}
 	
@@ -69,17 +71,24 @@ public class FeatureSteps
 	{
 		try
 		{
+			currentBrowser = browser;
 			if(browser.equals("Chrome"))
 			{
-				String f = new File("").getAbsolutePath();
-				currentBrowser = browser;
-				System.setProperty("webdriver.chrome.driver", f+"//Misc//webDrivers//chromedriver.exe");
-				driver = new ChromeDriver();
+				if(driver == null)
+				{
+				    ChromeOptions chromeOptions = new ChromeOptions();
+					//chromeOptions.setHeadless(true);
+					//chromeOptions.setProxy(null);
+					
+					String f = new File("").getAbsolutePath();
+					
+					System.setProperty("webdriver.chrome.driver", f+"//Misc//webDrivers//chromedriver.exe");
+					driver = new ChromeDriver(chromeOptions);
+				}
 			}
 			if(browser.equals("IE"))
 			{
 				String f = new File("").getAbsolutePath();
-				currentBrowser = browser;
 				System.setProperty("webdriver.ie.driver", f+"//Misc//webDrivers//IEDriverServer.exe");
 				DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
 				capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,true);
@@ -88,26 +97,22 @@ public class FeatureSteps
 			if(browser.equals("Opera"))
 			{
 				String f = new File("").getAbsolutePath();
-				currentBrowser = browser;
 				System.setProperty("webdriver.chrome.driver", f+"//Misc//webDrivers//operadriver.exe");
 				driver = new ChromeDriver();
 			}
 			if(browser.equals("Edge"))
 			{
 				String f = new File("").getAbsolutePath();
-				currentBrowser = browser;
 				System.setProperty("webdriver.edge.driver", f+"//Misc//webDrivers//MicrosoftWebDriver.exe");
 				driver = new EdgeDriver();
 			}
 			runnerCode = stepMethods.openTheDriver(browser, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.driverError, testCodes.testOpenBrowser));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.openChromeDriver+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 		
 	}
@@ -117,17 +122,13 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.maximiseWindow);
 			runnerCode = stepMethods.maximiseTheBrowser(driver);
-			runningLogger.writeToLog(loggerValues.windowMaximised);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.driverError, testCodes.testMaximiseScreen));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.windowMaximised+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -136,17 +137,17 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.closeDriver);
-			runnerCode = stepMethods.closeTheDriver(driver);
-			runningLogger.writeToLog(loggerValues.closeDriverComplete);
-			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.driverError, testCodes.testCloseBrowser));
-			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.closeDriver+loggerValues.asserted);
-			codesForTest.clear();
+			int totalTests = ConsoleRunner.getTestTotal();
+			if(totalTests == testNumber)
+			{
+				runnerCode = stepMethods.closeTheDriver(driver);
+				codesForTest.addAll(Arrays.asList(runnerCode, testCodes.driverError, testCodes.testCloseBrowser));
+				assertionTest(codesForTest, "");
+				codesForTest.clear();
+			}
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -170,16 +171,13 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.navigateToDriveguard);
 			runnerCode = stepMethods.checkCorrectPageReached("https://cmsdriveguard.co.uk/Account/Login", driver, false);
-			runningLogger.writeToLog(loggerValues.driveguardNavigated);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webAddressError, testCodes.testNavigateToDriveGuardProd));
 			assertionTest(codesForTest, "");
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -188,16 +186,13 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.navigateToDriveguard+loggerValues.production);
 			runnerCode = stepMethods.checkCorrectPageReached("https://cmsdriveguard.co.uk/Account/Login", driver, false);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webAddressError, testCodes.testNavigateToDriveGuardProd));
-			runningLogger.writeToLog(loggerValues.driveguardNavigated);
 			assertionTest(codesForTest, "");
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -206,16 +201,13 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.navigateToDriveguard+loggerValues.production);
 			runnerCode = stepMethods.checkCorrectPageReached("https://qa.cmsdriveguard.co.uk/Account/Login", driver, false);
-			runningLogger.writeToLog(loggerValues.driveguardNavigated);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webAddressError, testCodes.testNavigateToDriveGuardQa));
 			assertionTest(codesForTest, "");
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -224,16 +216,13 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.checkElement+webElement);
 			runnerCode = stepMethods.checkElement(webElement, "id", driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webElementError, testCodes.testCheckElementExists));
 			assertionTest(codesForTest, webElement);
-			runningLogger.writeToLog(loggerValues.checkElement+webElement+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -242,16 +231,13 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.checkElement+webElement);
 			runnerCode = stepMethods.checkElement(webElement, tagType, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webElementError, testCodes.testCheckElementExists));
 			assertionTest(codesForTest, webElement);
-			runningLogger.writeToLog(loggerValues.checkElement+webElement+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -260,17 +246,13 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.typeIntoTextbox+webElement);
 			runnerCode = stepMethods.typeIntoTextbox(webElement, "id",textValue, driver);
-			runningLogger.writeToLog(loggerValues.textboxTypedInto+webElement+" : "+textValue);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webElementError, testCodes.testTypeIntoTextbox));
 			assertionTest(codesForTest, webElement);
-			runningLogger.writeToLog(loggerValues.typeIntoTextbox+webElement+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -279,17 +261,13 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.typeIntoTextbox+webElement);
 			runnerCode = stepMethods.typeIntoTextbox(webElement, tagType, textValue, driver);
-			runningLogger.writeToLog(loggerValues.textboxTypedInto+webElement+" : "+textValue);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webElementError, testCodes.testTypeIntoTextbox));
 			assertionTest(codesForTest, webElement);
-			runningLogger.writeToLog(loggerValues.typeIntoTextbox+webElement+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -298,17 +276,13 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.clickElement+webElement);
 			runnerCode = stepMethods.clickElement(webElement, "id", driver);
-			runningLogger.writeToLog(loggerValues.elementClicked+webElement);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webElementError, testCodes.testClickButton));
 			assertionTest(codesForTest, webElement);
-			runningLogger.writeToLog(loggerValues.clickElement+webElement+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -381,7 +355,6 @@ public class FeatureSteps
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -390,17 +363,13 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.clickElement+webElement);
 			runnerCode = stepMethods.clickElement(webElement, tagType, driver);
-			runningLogger.writeToLog(loggerValues.elementClicked+webElement);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webElementError, testCodes.testClickButton));
 			assertionTest(codesForTest, webElement);
-			runningLogger.writeToLog(loggerValues.clickElement+webElement+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -409,16 +378,13 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.checkPageLoaded+expectedPage);
 			runnerCode = stepMethods.checkCorrectPageReached(expectedPage, driver, false);
-			runningLogger.writeToLog(loggerValues.pageLoaded+expectedPage);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webAddressError, testCodes.testNavigateToPage));
 			assertionTest(codesForTest, expectedPage);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -427,9 +393,7 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.createExpectedInputListTable+tableId);
 			runnerCode = stepMethods.createExpectedInputList(tableId, "id", "table", driver);
-			runningLogger.writeToLog(loggerValues.expectedInputCreated+tableId);
 			
 			if(runnerCode != 0)
 			{
@@ -443,7 +407,6 @@ public class FeatureSteps
 			{
 				WebElement element = usableElements.get(i);
 				String description = element.getAttribute("type")+": "+element.getAttribute("id");
-				runningLogger.writeToLog(loggerValues.checkElementVisible+element.getAttribute("id"));
 				runnerCode = stepMethods.checkElementIsVisible(element);
 				codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webElementError, testCodes.testCheckElementIsVisible));
 				assertionTest(codesForTest, description);
@@ -452,7 +415,6 @@ public class FeatureSteps
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -463,9 +425,7 @@ public class FeatureSteps
 		{
 			if(tag.equals("class"))
 			{
-				runningLogger.writeToLog(loggerValues.createExpectedInputListTable+container);
 				runnerCode = stepMethods.createExpectedInputList(container, tag, "table", driver);
-				runningLogger.writeToLog(loggerValues.expectedInputCreated+container);
 			}
 				
 			
@@ -482,7 +442,6 @@ public class FeatureSteps
 			{
 				WebElement element = usableElements.get(i);
 				String description = element.getAttribute("type")+": "+element.getAttribute("id");
-				runningLogger.writeToLog(loggerValues.checkElementVisible+element.getAttribute("id"));
 				runnerCode = stepMethods.checkElementIsVisible(element);
 				codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webElementError, testCodes.testCheckElementIsVisible));
 				assertionTest(codesForTest, description);
@@ -491,7 +450,6 @@ public class FeatureSteps
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -517,7 +475,6 @@ public class FeatureSteps
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -571,7 +528,6 @@ public class FeatureSteps
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -588,7 +544,6 @@ public class FeatureSteps
 			
 			try
 			{
-				runningLogger.writeToLog(loggerValues.checkElement+menuId);
 				WebElement menuDiv = driver.findElement(By.id(menuId));
 				List<WebElement> navigationOptions = menuDiv.findElements(By.tagName("a"));
 				
@@ -621,7 +576,6 @@ public class FeatureSteps
 			}
 			catch(Exception e)
 			{
-				runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 				runnerCode = testCodes.elementNotFound;
 			}
 			
@@ -636,7 +590,6 @@ public class FeatureSteps
 				String href = chosenElement.getAttribute("href");
 				String hrefId = href.substring(href.lastIndexOf("/")+1, href.length());
 				String description = hrefId;
-				runningLogger.writeToLog(loggerValues.moveToAnotherPage+page);
 				runnerCode = stepMethods.clickNavigationElement(menuId, chosenElement, designatedPage, skipPopup, driver);
 				codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webAddressError, testCodes.testNavigateToPage));
 				assertionTest(codesForTest, description);
@@ -645,7 +598,6 @@ public class FeatureSteps
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -656,7 +608,6 @@ public class FeatureSteps
 		try
 		{
 			boolean elementFound = false;
-			runningLogger.writeToLog(loggerValues.checkNavigationWorking);
 			boolean skipPopup = true;
 			List<String> hrefList = new ArrayList<String>();
 			Set<WebElement> elementSet = new HashSet<WebElement>();
@@ -699,7 +650,6 @@ public class FeatureSteps
 					String href = navigationElement.getAttribute("href");
 					String hrefId = href.substring(href.lastIndexOf("/")+1, href.length());
 					String description = hrefId;
-					runningLogger.writeToLog(loggerValues.clickElement+navigationElement);
 					runnerCode = stepMethods.clickNavigationElement(menuId, navigationElement, expectedPage, skipPopup, driver);
 					codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webAddressError, testCodes.testNavigateToPage));
 					assertionTest(codesForTest, description);
@@ -711,14 +661,12 @@ public class FeatureSteps
 				if(elementFound == false)
 				{
 					runnerCode = testCodes.elementNotFound;
-					runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 					codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webElementError, testCodes.findNavigationBar));
 					assertionTest(codesForTest, menuId);
 					codesForTest.clear();
 				}
 				else
 				{
-					runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 					codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webAddressError, testCodes.testNavigateToPage));
 					assertionTest(codesForTest, menuId);
 					codesForTest.clear();
@@ -728,7 +676,6 @@ public class FeatureSteps
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -739,19 +686,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsCmsAdmin);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
 					"", "LoginButton", "https://cmsdriveguard.co.uk/CMSFleetManager.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webPageFunctionalityError, testCodes.testLoginAsCMSAdminProd));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsCmsAdmin+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -760,19 +704,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsCmsSupervisor);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
 					"", "LoginButton", "https://cmsdriveguard.co.uk/AnalysisAuditTrail.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webPageFunctionalityError, testCodes.testLoginAsCMSSupervisorProd));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsCmsSupervisor+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -781,19 +722,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsCmsOperator);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
 					"", "LoginButton", "https://cmsdriveguard.co.uk/CMSAnalystHome.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.loginUnsuccessful, testCodes.testLoginAsCMSOperatorProd));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsCmsOperator+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -802,19 +740,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsCHAdmin);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
 					"", "LoginButton", "https://cmsdriveguard.co.uk/ClaimsHandlerRolesAndUsers.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.loginUnsuccessful, testCodes.testLoginAsCHAdminProd));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsCHAdmin+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -823,19 +758,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsCHSupervisor);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
 					"", "LoginButton", "https://cmsdriveguard.co.uk/ClaimIncidentAuditTrail.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.loginUnsuccessful, testCodes.testLoginAsCHSupervisorProd));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsCHSupervisor+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -844,19 +776,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsCHOperator);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
 					"", "LoginButton", "https://cmsdriveguard.co.uk/ClaimHandlerHome.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.loginUnsuccessful, testCodes.testLoginAsCHOperatorProd));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsCHOperator+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -865,19 +794,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsRRAdmin);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
 					"", "LoginButton", "https://cmsdriveguard.co.uk/RapidResponderRolesAndUsers.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.loginUnsuccessful, testCodes.testLoginAsRRAdminProd));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsRRAdmin+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -886,19 +812,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsRRSupervisor);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
 					"", "LoginButton", "https://cmsdriveguard.co.uk/FNOLIncidentAuditTrail.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.loginUnsuccessful, testCodes.testLoginAsRRSupervisorProd));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsRRSupervisor+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -907,19 +830,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsRROperator);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
 					"", "LoginButton", "https://cmsdriveguard.co.uk/FleetOperatorHome.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.loginUnsuccessful, testCodes.testLoginAsRROperatorProd));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsRROperator+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -928,19 +848,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsCmsAdmin+loggerValues.production);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
 					"", "LoginButton", "https://cmsdriveguard.co.uk/CMSFleetManager.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webPageFunctionalityError, testCodes.testLoginAsCMSAdminProd));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsCmsAdmin+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -949,19 +866,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsCmsSupervisor+loggerValues.production);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
 					"", "LoginButton", "https://cmsdriveguard.co.uk/AnalysisAuditTrail.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webPageFunctionalityError, testCodes.testLoginAsCMSSupervisorProd));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsCmsSupervisor+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -970,19 +884,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsCmsOperator+loggerValues.production);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
 					"", "LoginButton", "https://cmsdriveguard.co.uk/CMSAnalystHome.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.loginUnsuccessful, testCodes.testLoginAsCMSOperatorProd));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsCmsOperator+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -991,19 +902,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsCHAdmin+loggerValues.production);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
 					"", "LoginButton", "https://cmsdriveguard.co.uk/ClaimsHandlerRolesAndUsers.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.loginUnsuccessful, testCodes.testLoginAsCHAdminProd));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsCHAdmin+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -1012,19 +920,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsCHSupervisor+loggerValues.production);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
 					"", "LoginButton", "https://cmsdriveguard.co.uk/ClaimIncidentAuditTrail.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.loginUnsuccessful, testCodes.testLoginAsCHSupervisorProd));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsCHSupervisor+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -1033,19 +938,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsCHOperator+loggerValues.production);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
 					"", "LoginButton", "https://cmsdriveguard.co.uk/ClaimHandlerHome.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.loginUnsuccessful, testCodes.testLoginAsCHOperatorProd));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsCHOperator+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -1054,19 +956,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsRRAdmin+loggerValues.production);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
 					"", "LoginButton", "https://cmsdriveguard.co.uk/RapidResponderRolesAndUsers.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.loginUnsuccessful, testCodes.testLoginAsRRAdminProd));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsRRAdmin+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -1075,19 +974,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsRRSupervisor+loggerValues.production);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
 					"", "LoginButton", "https://cmsdriveguard.co.uk/FNOLIncidentAuditTrail.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.loginUnsuccessful, testCodes.testLoginAsRRSupervisorProd));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsRRSupervisor+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -1096,19 +992,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsRROperator+loggerValues.production);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "",
 					"", "LoginButton", "https://cmsdriveguard.co.uk/FleetOperatorHome.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.loginUnsuccessful, testCodes.testLoginAsRROperatorProd));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsRROperator+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -1117,19 +1010,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsCmsAdmin+loggerValues.qa);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "test.cms07@collisionmanagementsystems.co.uk",
 					"QApassword1!", "LoginButton", "https://qa.cmsdriveguard.co.uk/CMSFleetManager.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webPageFunctionalityError, testCodes.testLoginAsCMSAdminQa));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsCmsAdmin+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -1138,19 +1028,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsCmsSupervisor+loggerValues.qa);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "test.cms08@collisionmanagementsystems.co.uk",
 					"QApassword1!", "LoginButton", "https://qa.cmsdriveguard.co.uk/AnalysisAuditTrail.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webPageFunctionalityError, testCodes.testLoginAsCMSSupervisorQa));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsCmsSupervisor+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -1159,19 +1046,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsCmsOperator+loggerValues.qa);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "test.cms09@collisionmanagementsystems.co.uk",
 					"QApassword1!", "LoginButton", "https://qa.cmsdriveguard.co.uk/CMSAnalystHome.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webPageFunctionalityError, testCodes.testLoginAsCMSOperatorQa));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsCmsOperator+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -1180,19 +1064,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsCHAdmin+loggerValues.qa);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "test.cms04@collisionmanagementsystems.co.uk",
 					"QACHpassword1!", "LoginButton", "https://qa.cmsdriveguard.co.uk/ClaimsHandlerRolesAndUsers.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webPageFunctionalityError, testCodes.testLoginAsCHAdminQa));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsCHAdmin+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -1201,19 +1082,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsCHSupervisor+loggerValues.qa);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "test.cms05@collisionmanagementsystems.co.uk",
 					"QACHpassword1!", "LoginButton", "https://qa.cmsdriveguard.co.uk/ClaimIncidentAuditTrail.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webPageFunctionalityError, testCodes.testLoginAsCHSupervisorQa));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsCHSupervisor+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -1222,19 +1100,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsCHOperator+loggerValues.qa);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "test.cms06@collisionmanagementsystems.co.uk",
 					"QACHpassword1!", "LoginButton", "https://qa.cmsdriveguard.co.uk/ClaimHandlerHome.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webPageFunctionalityError, testCodes.testLoginAsCHOperatorQa));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsCHOperator+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -1243,19 +1118,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsRRAdmin+loggerValues.qa);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "test.cms01@collisionmanagementsystems.co.uk",
 					"QARRpassword1!", "LoginButton", "https://qa.cmsdriveguard.co.uk/RapidResponderRolesAndUsers.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webPageFunctionalityError, testCodes.testLoginAsRRAdminQa));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsRRAdmin+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -1264,19 +1136,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsRRSupervisor+loggerValues.qa);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "test.cms02@collisionmanagementsystems.co.uk",
 					"QARRpassword1!", "LoginButton", "https://qa.cmsdriveguard.co.uk/FNOLIncidentAuditTrail.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webPageFunctionalityError, testCodes.testLoginAsRRSupervisorQa));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsRRSupervisor+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -1285,19 +1154,16 @@ public class FeatureSteps
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.loginAsRROperator+loggerValues.qa);
 			List<String> pageInfo = new ArrayList<String>();
 			pageInfo.addAll(Arrays.asList("txtEmail", "txtPassword", "test.cms03@collisionmanagementsystems.co.uk",
 					"QARRpassword1!", "LoginButton", "https://qa.cmsdriveguard.co.uk/FleetOperatorHome.aspx"));
 			runnerCode = quickStepMethods.logInAsUser(pageInfo, driver);
 			codesForTest.addAll(Arrays.asList(runnerCode, testCodes.webPageFunctionalityError, testCodes.testLoginAsRROperatorQa));
 			assertionTest(codesForTest, "");
-			runningLogger.writeToLog(loggerValues.loginAsRROperator+loggerValues.asserted);
 			codesForTest.clear();
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	

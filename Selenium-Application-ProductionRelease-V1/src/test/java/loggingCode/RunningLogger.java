@@ -1,4 +1,4 @@
-package loggingCode;
+/*package loggingCode;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -109,4 +109,4 @@ public class RunningLogger
 			e.printStackTrace();
 		}
 	}
-}
+}*/

@@ -7,7 +7,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import loggingCode.RunningLogger;
 import loggingCode.RunningLoggerStringValues;
 import testCodes.TestCodes;
 
@@ -18,7 +17,6 @@ public class StepMethods
 	
 	GenericMethods genericMethod = new GenericMethods();
 	
-	RunningLogger runningLogger = new RunningLogger();
 	RunningLoggerStringValues loggerValues = new RunningLoggerStringValues();
 	TestCodes tc = new TestCodes();
 	
@@ -38,13 +36,10 @@ public class StepMethods
 		int testCode = 0;
 		try
 		{
-			runningLogger.writeToLog("Maximise Window");
 			webDriver.manage().window().maximize();
-			runningLogger.writeToLog("Window Maximised");
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 		
 		testCode = genericMethod.checkScreenHasMaximised(webDriver);
@@ -63,7 +58,6 @@ public class StepMethods
 		catch(Exception e)
 		{
 			testCode = tc.driverCloseError;
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 			return testCode;
 		}
 	}
@@ -119,7 +113,6 @@ public class StepMethods
 			return testCode;
 		WebElement webElementBeforeSort = createConfirmedElement(topColumnId, topColumnTag, webDriver);
 		String webElementString = webElementBeforeSort.findElement(By.xpath("//span")).getText();
-		runningLogger.writeToLog(webElementString);
 		WebElement sortButton = createConfirmedElement(sortButtonId, sortButtonTag, webDriver);
 		testCode = genericMethod.clickElement(sortButton, webDriver);
 		if(testCode != 0)
@@ -129,7 +122,6 @@ public class StepMethods
 			return testCode;
 		WebElement webElementAfterSort = createConfirmedElement(topColumnId, topColumnTag, webDriver);
 		String webElementString2 = webElementAfterSort.findElement(By.xpath("//span")).getText();
-		runningLogger.writeToLog(webElementString2);
 		testCode = genericMethod.compareSortStrings(webElementString, webElementString2);
 		if(testCode != 0)
 			return testCode;

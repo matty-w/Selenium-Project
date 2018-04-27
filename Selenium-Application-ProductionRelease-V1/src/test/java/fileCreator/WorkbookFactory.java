@@ -17,29 +17,23 @@ import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import loggingCode.RunningLogger;
 import loggingCode.RunningLoggerStringValues;
 
 public class WorkbookFactory
 {	
-	RunningLogger runningLogger = new RunningLogger();
 	RunningLoggerStringValues loggerValues = new RunningLoggerStringValues();
 	
 	protected XSSFCellStyle createWorksheetCellStyle(XSSFWorkbook workbook, int redHex, int greenHex, int blueHex) 
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.createWorksheetCellStyle);
 			XSSFCellStyle cellStyle = workbook.createCellStyle();
 			cellStyle.setFillForegroundColor(new XSSFColor(new java.awt.Color(redHex, greenHex, blueHex)));
 			cellStyle.setFillPattern(CellStyle.SOLID_FOREGROUND); 
-			runningLogger.writeToLog(loggerValues.worksheetCellStyleCreated);
 			return cellStyle;
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.createWorksheetCellStyleError);
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 			return null;
 		}
 	}
@@ -52,11 +46,11 @@ public class WorkbookFactory
 	        workbook.write(outputStream);
 	        outputStream.flush();
 	        outputStream.close();
+	        //workbook.close();
+	        
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.writingToFileError);
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 
@@ -65,7 +59,6 @@ public class WorkbookFactory
 	{
 		try
 		{
-			runningLogger.writeToLog(loggerValues.createExcelRow);
 			XSSFSheet worksheetFull = workbook.getSheetAt(sheetNumbers.get(0));
 			XSSFSheet worksheetFail = workbook.getSheetAt(sheetNumbers.get(1));
 			
@@ -115,11 +108,9 @@ public class WorkbookFactory
 		        }
 			}
 			calculateAndUpdateFailPercent(totalStepsCell, totalPassCell, totalFailPercent);
-			runningLogger.writeToLog(loggerValues.excelRowCreated);
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -132,7 +123,6 @@ public class WorkbookFactory
 			{
 				if(titleAlreadyCreated == false)
 				{
-					runningLogger.writeToLog(loggerValues.createTitleRow);
 				    for (Object[] datatype : datatypes) 
 				    {
 				    	Row rowFail = worksheetFail.createRow(worksheetFail.getLastRowNum()+1);
@@ -142,7 +132,6 @@ public class WorkbookFactory
 				        	colNumFail = createCell(rowFail, colNumFail, field, worksheetFail, cellStyleTestTitle);
 				        }
 				    }
-				    runningLogger.writeToLog(loggerValues.titleRowCreated);
 				}
 			}
 			else
@@ -160,7 +149,6 @@ public class WorkbookFactory
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -191,7 +179,6 @@ public class WorkbookFactory
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 			return "ErrorRenamingFile";
 		}
 	}
@@ -207,7 +194,6 @@ public class WorkbookFactory
 		} 
 		catch (IOException e) 
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -221,7 +207,6 @@ public class WorkbookFactory
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 	
@@ -238,7 +223,6 @@ public class WorkbookFactory
 		}
 		catch(Exception e)
 		{
-			runningLogger.writeToLog(loggerValues.errorString+e.getMessage());
 		}
 	}
 }

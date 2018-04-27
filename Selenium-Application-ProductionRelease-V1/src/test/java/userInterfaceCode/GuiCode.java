@@ -33,7 +33,6 @@ import cucumber.runtime.io.MultiLoader;
 import cucumber.runtime.io.ResourceLoader;
 import cucumber.runtime.io.ResourceLoaderClassFinder;
 import fileCreator.CreateExcelWorkbook;
-import loggingCode.RunningLogger;
 import loggingCode.RunningLoggerStringValues;
 
 public class GuiCode 
@@ -50,12 +49,8 @@ public class GuiCode
 	{
 		try 
 		{
-			RunningLogger runningLogger = new RunningLogger();
-			runningLogger.createRunLog();
 			JPanel panel = new JPanel();
 			
-			runningLogger.writeToLog("Create Panel");
-			runningLogger.writeToLog("Create Default Log Folder Location");
 			
 			
 			String f = new File("").getAbsolutePath();
@@ -65,11 +60,9 @@ public class GuiCode
 			defaultLogPath = logLocation;
 			defaultFeaturePath = featureLocation;
 			
-			runningLogger.writeToLog("Default Log Folder Location Created");
 			
 			BufferedImage cmsLogo = ImageIO.read(new File(f+"//Misc//image//cmsLogo.png"));
 			JLabel picLabel = new JLabel(new ImageIcon(cmsLogo));
-			runningLogger.writeToLog("Image Added");
 	
 			JLabel logFileTitle = new JLabel("Log File Location:");
 			logFileTitle.setBounds(11, 85, 100, 20);
@@ -78,7 +71,6 @@ public class GuiCode
 			logFileTextField.setEditable(false);
 			JButton browseButtonLogFile = new JButton("Browse");
 			browseButtonLogFile.setBounds(350, 105, 80, 20);
-			runningLogger.writeToLog("JButtons Created");
 			
 			
 			JLabel featureFilesLocation = new JLabel("Feature File Location:");
@@ -162,7 +154,6 @@ public class GuiCode
 			}
 			startButton.setEnabled(canEnable);
 			
-			runningLogger.writeToLog("Gui Created");
 			
 			
 			populateFeatureField(featureTestsLocationField, testList);
@@ -171,39 +162,28 @@ public class GuiCode
 			{
 				public void actionPerformed(ActionEvent e) 
 				{
-					runningLogger.writeToLog("Test Run Started");
 					ClassLoader classLoader = getClass().getClassLoader();
 					ResourceLoader resourceLoader = new MultiLoader(classLoader);
 					RuntimeOptionsFactory roFactory = new RuntimeOptionsFactory(RunTests.class);
 					RuntimeOptions ro = roFactory.create();
 					ro.getFeaturePaths().clear();
-					runningLogger.writeToLog("Feature Location Set To: "+featureLocationSaved);
 					ro.getFeaturePaths().add(featureLocationSaved);
 					ClassFinder classFinder = new ResourceLoaderClassFinder(resourceLoader, classLoader);
 					cucumber.runtime.Runtime runtime = new cucumber.runtime.Runtime(resourceLoader, classFinder, classLoader, ro);
-					RunningLogger runningLogger = new RunningLogger();
-					runningLogger.writeToLog("Run Feature Tests");
 					
 					CreateExcelWorkbook workbookCreator = new CreateExcelWorkbook();
 					
 					String workbookLocation  = getLogFileLocationSaved();
-					runningLogger.writeToLog("Create Excel Workbook");
 					workbookCreator.createExcelWorkbook(workbookLocation);
-					runningLogger.writeToLog("Excel Workbook Created");
 					
 					try 
 					{
 						runtime.run();
 						
-						runningLogger.writeToLog("Rename Excel Workbook");
 						workbookCreator.replaceFile(workbookLocation);
-						runningLogger.writeToLog("Excel Workbook Renamed");
-						runningLogger.writeToLog("Renaming Running Log File - Ending Test Run");
-						runningLogger.replaceFile();
 					} 
 					catch (IOException e1)
 					{
-						runningLogger.writeToLog(e1.getMessage());
 					}
 				}
 			});
@@ -214,7 +194,6 @@ public class GuiCode
 				@Override
 				public void actionPerformed(ActionEvent e) 
 				{
-					runningLogger.replaceFile();
 					frame.dispose();
 				}
 			});
@@ -339,9 +318,6 @@ public class GuiCode
 		{
 			try 
 			{
-				RunningLogger runningLogger = new RunningLogger();
-				RunningLoggerStringValues loggerValues = new RunningLoggerStringValues();
-				runningLogger.writeToLog(loggerValues.errorString+e1.getMessage());
 				String f = new File("").getAbsolutePath();
 				String line1 = "An Error Has Occurred";
 				String line2 = "Please Check '"+f+"\\Misc\\GuiLogging' For Further Information.";
